@@ -90,8 +90,8 @@ export class CalendarComponent implements AfterViewInit  {
     const dateRange = this.dateRangeStrategy.selectionFinished(null);
     
     // Update dataAxis based on the date range
-    const dataAxis = this.generateDataAxis(dateRange);
-     // const dataAxis = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20','21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
+    //const dataAxis = this.generateDataAxis(dateRange);
+      const dataAxis = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20','21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
       const data = [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122, 133, 334, 198, 123, 125, 220, 234, 290, 330, 310, 123, 442, 321, 90, 149,23];
       const yMax = 500;
       const dataShadow = [];
@@ -139,20 +139,18 @@ export class CalendarComponent implements AfterViewInit  {
           {
             type: 'bar',
             showBackground: true,
-            itemStyle: {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: 'red' },
-                { offset: 0.5, color: 'red' },
-                { offset: 1, color: 'red' }
-              ])
+            itemStyle: (params: any) => {
+              // Customize itemStyle based on the condition
+              const value = params.data;
+              return {
+                color: value> 400 ? 'red' : 'blue',
+                // Additional styling properties...
+              };
             },
             emphasis: {
               itemStyle: {
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: 'red' },
-                  { offset: 0.7, color: 'red' },
-                  { offset: 1, color: '#83bff6' }
-                ])
+                color: 'red',
+                // Additional styling properties...
               }
             },
             data: data
@@ -176,9 +174,6 @@ export class CalendarComponent implements AfterViewInit  {
   }
 
   private generateDataAxis(dateRange: DateRange<Date>): string[] {
-    // Logic to generate dataAxis based on the date range
-    // You can use date-fns or any other date manipulation library here
-    // For simplicity, assuming dateRange.start and dateRange.end are valid Date objects
   
     const dataAxis: string[] = [];
     const startDate = dateRange.start;
